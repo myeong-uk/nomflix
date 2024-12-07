@@ -111,11 +111,11 @@ interface MovieDetails {
 }
 
 interface BigMovieProps {
-  movieId: number;
+  tvId: number;
   onClose: () => void;
 }
 
-function BigMovie({ movieId, onClose }: BigMovieProps) {
+function BigTv({ tvId, onClose }: BigMovieProps) {
   const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -123,7 +123,7 @@ function BigMovie({ movieId, onClose }: BigMovieProps) {
     async function fetchMovieDetails() {
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=958a2ba52a17b56a5320e5698bd1b258&language=en-US`
+          `https://api.themoviedb.org/3/tv/${tvId}?api_key=958a2ba52a17b56a5320e5698bd1b258&language=en-US`
         );
         const data = await response.json();
         setMovieDetails(data);
@@ -135,7 +135,7 @@ function BigMovie({ movieId, onClose }: BigMovieProps) {
     }
 
     fetchMovieDetails();
-  }, [movieId]);
+  }, [tvId]);
 
   if (loading) {
     return <Overlay exit={{ opacity: 0 }} animate={{ opacity: 1 }} />;
@@ -181,4 +181,4 @@ function BigMovie({ movieId, onClose }: BigMovieProps) {
   );
 }
 
-export default BigMovie;
+export default BigTv;

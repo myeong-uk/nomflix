@@ -116,7 +116,7 @@ function Home() {
             />
           </SliderWrapper>
           {bigMovieMatch && clickedMovie && (
-            <BigMovie movie={clickedMovie} onClose={onOverlayClick} />
+            <BigMovie movieId={clickedMovie.id} onClose={onOverlayClick} />
           )}
         </>
       )}

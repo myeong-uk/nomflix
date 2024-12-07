@@ -43,3 +43,21 @@ export function getUpcomingMovies() {
     (response) => response.json()
   );
 }
+
+export function getAiringTodayTv() {
+  return fetch(`${BASE_PATH}/tv/airing_today?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getPopularTv() {
+  return fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getTopRatedTv() {
+  return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
