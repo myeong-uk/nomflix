@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools"
 import { theme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -82,6 +83,7 @@ ReactDOM.render(
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <App />
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         </ThemeProvider>
       </QueryClientProvider>
     </RecoilRoot>

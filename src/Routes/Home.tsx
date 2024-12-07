@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 // import { useScroll } from "framer-motion";
-import { getMovies, IGetMoviesResult } from "../api";
+import { getMovies, getPopularMovies, getTopRatedMovies, getUpcomingMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import Loader from "../Components/Loader";
 import Banner from "../Components/Banner";
@@ -33,6 +33,19 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   );
+  const { data:popularMovies, isLoading: isLoadingPopular } = useQuery<IGetMoviesResult>(
+    ["movies", "popular"],
+    getPopularMovies
+  );
+  const { data:topRatedMovies, isLoading:isLoadingTopRated } = useQuery<IGetMoviesResult>(
+    ["movies", "topRated"],
+    getTopRatedMovies
+  );
+  const { data:upcomingMovies, isLoading:isLoadingUpcoming } = useQuery<IGetMoviesResult>(
+    ["movies", "upcoming"],
+    getUpcomingMovies
+  );
+
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
 
@@ -55,11 +68,14 @@ function Home() {
 
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
-    data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId);
+    (data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId) ||
+      popularMovies?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId) ||
+      topRatedMovies?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId) ||
+      upcomingMovies?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId));
 
   return (
     <Wrapper>
-      {isLoading ? (
+      {isLoading || isLoadingPopular || isLoadingTopRated || isLoadingUpcoming ? (
         <Loader />
       ) : (
         <>
@@ -70,14 +86,34 @@ function Home() {
             onClick={incraseIndex}
           />
           <SliderWrapper>
-          <Slider
-            movies={data?.results.slice(1) || []}
-            index={index}
-            offset={offset}
-            onBoxClick={onBoxClicked}
-            onIndexChange={toggleLeaving}
-          />
-
+            <Slider
+              movies={data?.results.slice(1) || []}
+              index={index}
+              offset={offset}
+              onBoxClick={onBoxClicked}
+              onIndexChange={toggleLeaving}
+            />
+            <Slider
+              movies={popularMovies?.results || []}
+              index={index}
+              offset={offset}
+              onBoxClick={onBoxClicked}
+              onIndexChange={toggleLeaving}
+            />
+            <Slider
+              movies={topRatedMovies?.results || []}
+              index={index}
+              offset={offset}
+              onBoxClick={onBoxClicked}
+              onIndexChange={toggleLeaving}
+            />
+            <Slider
+              movies={upcomingMovies?.results || []}
+              index={index}
+              offset={offset}
+              onBoxClick={onBoxClicked}
+              onIndexChange={toggleLeaving}
+            />
           </SliderWrapper>
           {bigMovieMatch && clickedMovie && (
             <BigMovie movie={clickedMovie} onClose={onOverlayClick} />
