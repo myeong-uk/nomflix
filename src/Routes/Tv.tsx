@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 // import { useScroll } from "framer-motion";
-import { getAiringTodayTv, getPopularTv, getTopRatedTv, IGetMoviesResult } from "../api";
+import { getAiringTodayTv, getPopularTv, getTopRatedTv, IGetTvResult } from "../api";
 import { makeImagePath } from "../utils";
 import Loader from "../Components/Loader";
 import Banner from "../Components/Banner";
@@ -29,15 +29,15 @@ function Tv() {
   const history = useHistory();
   const bigTvMatch = useRouteMatch<{ tvId: string }>("/tv/:tvId");
   // const { scrollY } = useScroll();
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
+  const { data, isLoading } = useQuery<IGetTvResult>(
     ["tv", "airingToday"],
     getAiringTodayTv
   );
-  const { data: popularTv, isLoading: isLoadingPopular } = useQuery<IGetMoviesResult>(
+  const { data: popularTv, isLoading: isLoadingPopular } = useQuery<IGetTvResult>(
     ["tv", "popular"],
     getPopularTv
   );
-  const { data: topRatedTv, isLoading: isLoadingTopRated } = useQuery<IGetMoviesResult>(
+  const { data: topRatedTv, isLoading: isLoadingTopRated } = useQuery<IGetTvResult>(
     ["tv", "topRated"],
     getTopRatedTv
   );
@@ -75,14 +75,14 @@ function Tv() {
       ) : (
         <>
           <Banner
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
-            title={data?.results[0].title || ""}
-            overview={data?.results[0].overview || ""}
+            bgPhoto={makeImagePath(data?.results[1].backdrop_path || "")}
+            title={data?.results[1].name || ""}
+            overview={data?.results[1].overview || ""}
             onClick={increaseIndex}
           />
           <SliderWrapper>
             <Slider
-              movies={data?.results.slice(1) || []}
+              movies={data?.results || []}
               index={index}
               offset={offset}
               onBoxClick={onBoxClicked}

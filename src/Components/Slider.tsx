@@ -59,10 +59,10 @@ const infoVariants = {
 };
 
 interface SliderProps {
-  movies: { id: number; title: string; backdrop_path: string }[];
+  movies: { id: number; title?: string; name?:string; backdrop_path: string }[];
   index: number;
   offset: number;
-  onBoxClick: (movieId: number) => void;
+  onBoxClick?: (movieId: number) => void;
   onIndexChange: () => void;
 }
 
@@ -87,11 +87,11 @@ function Slider({ movies, index, offset, onBoxClick, onIndexChange }: SliderProp
                 whileHover="hover"
                 initial="normal"
                 variants={boxVariants}
-                onClick={() => onBoxClick(movie.id)}
+                onClick={() => onBoxClick && onBoxClick(movie.id)}
                 bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
               >
                 <Info variants={infoVariants}>
-                  <h4>{movie.title}</h4>
+                  <h4>{movie.title || movie.name}</h4>
                 </Info>
               </Box>
             ))}

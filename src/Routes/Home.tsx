@@ -51,7 +51,7 @@ function Home() {
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
-  const incraseIndex = () => {
+  const increaseIndex = () => {
     if (data && !leaving) {
       toggleLeaving();
       const totalMovies = data.results.length - 1;
@@ -83,7 +83,7 @@ function Home() {
             bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
             title={data?.results[0].title || ""}
             overview={data?.results[0].overview || ""}
-            onClick={incraseIndex}
+            onClick={increaseIndex}
           />
           <SliderWrapper>
             <Slider
